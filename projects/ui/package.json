@@ -1,0 +1,42 @@
+{
+  "name": "@po-ui/react-components",
+  "author": {
+    "name": "Thiago G. Mota",
+    "email": "tgmspawn@gmail.com",
+    "url": "https://github.com/tgmti"
+  },
+  "version": "0.0.1-POC",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tgmti/po-react"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006 --no-dll",
+    "build": "tsc -p .",
+    "build-storybook": "build-storybook --no-dll"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@storybook/addon-actions": "^6.0.28",
+    "@storybook/addon-centered": "^5.3.21",
+    "@storybook/addon-docs": "^6.0.28",
+    "@storybook/addon-essentials": "^6.0.28",
+    "@storybook/addon-links": "^6.0.28",
+    "@storybook/addons": "^6.0.28",
+    "@storybook/react": "^6.0.28",
+    "@storybook/theming": "^6.0.28",
+    "@types/react": "^16.9.56",
+    "babel-loader": "^8.2.1",
+    "react": "^17.0.1",
+    "react-docgen-typescript-loader": "^3.7.2",
+    "react-dom": "^17.0.1",
+    "react-is": "^17.0.1",
+    "ts-loader": "^8.0.11",
+    "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "@po-ui/style": "^3.12.0"
+  }
+}

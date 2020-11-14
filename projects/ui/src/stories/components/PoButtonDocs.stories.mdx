@@ -1,0 +1,19 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+
+import PoButton from '../../lib/components/po-button';
+
+<Meta title="PoButton/Introduction" />
+
+# PoButton
+
+With `MDX` we can define a story for `PoButton` right in the middle of our
+markdown documentation.
+
+<Canvas>
+  <Story name="all PoButton">
+    <form>
+      <PoButton>Normal<PoButton/>
+      <PoButton disabled>Disabled<PoButton/>
+    </form>
+  </Story>
+</Canvas>
