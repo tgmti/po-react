@@ -15,7 +15,7 @@
   "scripts": {
     "storybook": "start-storybook -p 6006 --no-dll",
     "build": "tsc -p .",
-    "build-storybook": "build-storybook --no-dll"
+    "build-storybook": "build-storybook --no-dll -o ../../storybook"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
