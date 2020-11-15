@@ -13,7 +13,7 @@
     "url": "https://github.com/tgmti/po-react"
   },
   "scripts": {
-    "storybook": "start-storybook -p 6006 --no-dll",
+    "sb": "start-storybook -p 6006 --no-dll",
     "build": "tsc -p .",
     "build-storybook": "build-storybook --no-dll -o ../../storybook"
   },
