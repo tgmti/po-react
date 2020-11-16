@@ -4,8 +4,6 @@ import { Story, Meta } from '@storybook/react/types-6-0';
 
 import PoButton, { PoButtonProps } from '../../../lib/components/po-button';
 
-import '../../portal.css'
-
 export default {
   title: 'Button/PoButtonComponent',
   component: PoButton,
