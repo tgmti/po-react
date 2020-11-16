@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import PoButton from '../po-button';
 import { PoButtonGroupItem as PoButtonGroupItemInterface } from './PoButtonGroupItem';
 import { PoButtonGroupProps } from './PoButtonGroupProps';
+import { PoButtonGroupToggle } from './PoButtonGroupToggle';
 
 
 /**
@@ -21,32 +22,56 @@ import { PoButtonGroupProps } from './PoButtonGroupProps';
  *
  * > As recomendações do `po-button` também valem para o `po-button-group`.
  */
-export const PoButtonGroup = (props : PoButtonGroupProps) => {
+export const PoButtonGroup = ({ pButtons, pSmall, pToggle } : PoButtonGroupProps) => {
 
-  const { pButtons, pSmall } = props;
+  const buttonsRef: any = {}
+
+  const handleExclusive = (selectedKey: string) => {
+    console.log('selectOne', selectedKey);
+    console.log('buttonsRef', buttonsRef);
+    console.log('buttonsRefKey', buttonsRef[selectedKey]);
+    Object.keys(buttonsRef).forEach(key => buttonsRef[key].setisSelected(key === selectedKey) );
+  }
 
   return (
     <div className="po-button-group-container">
       { pButtons && pButtons.map( (buttonArgs, key) => {
-        const buttonProps = { pSmall, ...buttonArgs };
+        const childKey = key.toString();
+        const exclusive = pToggle !== PoButtonGroupToggle.Multiple;
+        const buttonProps = { ...buttonArgs, pSmall, childKey, exclusive, handleExclusive };
         return (
-          <PoButtonGroupItem {...buttonProps} key={key} ></PoButtonGroupItem>
+          <PoButtonGroupItem {...buttonProps} key={key}
+          ref={ (ref:any) => buttonsRef[`${key}`] = ref } >
+          </PoButtonGroupItem>
         );
       }) }
     </div>
   )
 }
 
-const PoButtonGroupItem = ({
+const PoButtonGroupItem = forwardRef(({
   label,
   selected,
   disabled,
   icon,
   pSmall,
-  className
- }: PoButtonGroupItemInterface) => {
+  className,
+  childKey,
+  exclusive,
+  handleExclusive
+ }: PoButtonGroupItemInterface, ref) => {
 
-  const classes = defineClasses({ selected, disabled, className });
+   const [isSelected, setisSelected] = useState(Boolean(selected))
+   const classes = defineClasses({ selected: isSelected, disabled, className });
+
+  useImperativeHandle(ref, () => ({ setisSelected }));
+
+  const toggleSelect = () => {
+    if (exclusive) {
+      return handleExclusive(childKey);
+    }
+    setisSelected(!isSelected);
+  }
 
   //TODO: Implementar no Button o Tooltip
   // p-tooltip-position="bottom"
@@ -60,10 +85,12 @@ const PoButtonGroupItem = ({
       pDisabled={disabled}
       pIcon={icon}
       pSmall={pSmall}
+      pClick={toggleSelect}
       ></PoButton>
+      {  }
     </div>
   );
-}
+});
 
 const defineClasses = ({
   selected,
