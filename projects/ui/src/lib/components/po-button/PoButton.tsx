@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { PoLoadingIcon } from '../po-loading/po-loading-icon/PoLoadingIcon';
 import { defaultProps, PoButtonProps } from './PoButtonProps';
 
@@ -16,7 +16,6 @@ import { defaultProps, PoButtonProps } from './PoButtonProps';
  */
 export const PoButton: React.FC<PoButtonProps> = (props: PoButtonProps) => {
 
-  const ref = useRef();
   const classes = defineClasses(props);
 
   let thisPoButton: HTMLButtonElement | null;
@@ -35,7 +34,7 @@ export const PoButton: React.FC<PoButtonProps> = (props: PoButtonProps) => {
       type="button"
       disabled={ props.disabled || props.pDisabled || props.pLoading }
       onClick={ props.pClick || props.onClick }
-      ref={ref}
+      ref={(button) => { thisPoButton = button; }}
     >
       { props.pLoading && <PoLoadingIcon neutralColor/> }
       { props.pIcon && <span className={`po-icon ${ props.pIcon }`} aria-hidden="true"></span> }
