@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import PoButton from '../po-button';
-import { PoTooltip } from '../po-tooltip/PoTooltip';
+import PoTooltip from '../po-tooltip';
 import { PoButtonGroupItem as PoButtonGroupItemInterface } from './PoButtonGroupItem';
 import { PoButtonGroupProps } from './PoButtonGroupProps';
 import { PoButtonGroupToggle } from './PoButtonGroupToggle';
@@ -46,27 +46,33 @@ export const PoButtonGroup = ({ pButtons, pSmall, pToggle } : PoButtonGroupProps
   )
 }
 
-const PoButtonGroupItem = forwardRef(({
-  label,
-  selected,
-  disabled,
-  icon,
-  pSmall,
-  className,
-  childKey,
-  pToggle,
-  action,
-  handleExclusive,
-  tooltip
- }: PoButtonGroupItemInterface, ref) => {
+const WithTooltip = (BaseComponent: any) => (props: any) => {
+  const { tooltip, ...newProps } = props;
 
-  const ButtonRef = React.createRef();
-  const getButtonRef = () => ref;
+  return (
+  <PoTooltip title={tooltip}>
+    <BaseComponent {...newProps}></BaseComponent>
+  </PoTooltip>
+  );
+};
+
+const PoButtonGroupItem = forwardRef((props: PoButtonGroupItemInterface, ref) => {
+
+  const { label, disabled, icon, pSmall } = props;
+  const buttonProps: any = { pLabel: label, pDisabled: disabled, pIcon: icon, pSmall,  }
+
+  const { className, pToggle, selected, childKey, action, handleExclusive } = props;
+
+  const { tooltip } = props;
+
+  if (tooltip){
+    buttonProps.tooltip = tooltip;
+  }
 
   const [isSelected, setisSelected] = useState(Boolean(selected))
   const classes = defineClasses({ selected: isSelected, disabled, className });
 
-  useImperativeHandle(ref, () => ({ setisSelected, getButtonRef }));
+  useImperativeHandle(ref, () => ({ setisSelected }));
 
   const toggleSelect = () => {
 
@@ -80,23 +86,18 @@ const PoButtonGroupItem = forwardRef(({
     }
   }
 
+  const ButtonComponent = tooltip ? WithTooltip(PoButton) : PoButton;
+
+  buttonProps.pClick = toggleSelect;
+
+
   //TODO: Implementar no Button o Tooltip
   // p-tooltip-position="bottom"
   // !button.disabled ? button.tooltip : undefined
-
-  //TODO: (p-click)="button.action(button); onButtonClick(button, i)"
   return (
     <div className={classes}>
-      <PoButton
-      pLabel={label}
-      pDisabled={disabled}
-      pIcon={icon}
-      pSmall={pSmall}
-      pClick={toggleSelect}
-      >
-        { tooltip && <PoTooltip ref={ButtonRef}>{tooltip}</PoTooltip> }
-      </PoButton>
-      {  }
+      <ButtonComponent {...buttonProps}
+      ></ButtonComponent>
     </div>
   );
 });
