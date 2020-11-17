@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, forwardRef, useImperativeHandle, CSSProperties } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, CSSProperties } from 'react';
 import { defaultProps, PoPopoverProps } from './PoPopoverProps';
 
 /**
@@ -54,7 +54,8 @@ const PoPopoverContent = forwardRef(({
     content,
     arrowDirection,
     isHidden,
-    hideArrow
+    hideArrow,
+    className
 }: PoPopoverProps, ref) => {
 
     const [show, showPopover] = useState(!Boolean(isHidden))
@@ -68,10 +69,10 @@ const PoPopoverContent = forwardRef(({
     useImperativeHandle(ref, () => ({ showPopover, togglePopover }));
 
     return (
-        <div hidden={!show} className="po-popover" style={style}>
-            {!hideArrow && <div className={`po-popover-arrow po-arrow-${ arrowDirection }`}></div> }
-            <div className="po-popover-content">
-                { title && <span className="po-popover-title">{ title }</span> }
+        <div hidden={!show} className={className} style={style}>
+            {!hideArrow && <div className={`${className}-arrow po-arrow-${ arrowDirection }`}></div> }
+            <div className={`${className}-content`}>
+                { title && <span className={`${className}-title`}>{ title }</span> }
                 { content && content }
             </div>
         </div>

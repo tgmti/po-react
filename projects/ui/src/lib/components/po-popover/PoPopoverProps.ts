@@ -15,5 +15,6 @@ export const defaultProps: PoPopoverProps = {
     isHidden: true,
     hideArrow: false,
     arrowDirection: 'left-top',
-    trigger: 'click'
+    trigger: 'click',
+    className: 'po-popover'
 }

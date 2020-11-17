@@ -1,3 +1,4 @@
-export interface PoTooltipProps extends React.ComponentProps<'div'> {
-    parentRef?: any
+import { PoPopoverProps } from "../po-popover";
+
+export interface PoTooltipProps extends PoPopoverProps {
 }
