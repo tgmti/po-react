@@ -60,8 +60,11 @@ const PoButtonGroupItem = forwardRef(({
   tooltip
  }: PoButtonGroupItemInterface, ref) => {
 
-   const [isSelected, setisSelected] = useState(Boolean(selected))
-   const classes = defineClasses({ selected: isSelected, disabled, className });
+  const ButtonRef = React.createRef();
+  const getButtonRef = () => ButtonRef;
+
+  const [isSelected, setisSelected] = useState(Boolean(selected))
+  const classes = defineClasses({ selected: isSelected, disabled, className });
 
   useImperativeHandle(ref, () => ({ setisSelected }));
 
@@ -91,7 +94,7 @@ const PoButtonGroupItem = forwardRef(({
       pSmall={pSmall}
       pClick={toggleSelect}
       >
-        { tooltip && <PoTooltip>{tooltip}</PoTooltip> }
+        { tooltip && <PoTooltip parentRef={getButtonRef}>{tooltip}</PoTooltip> }
       </PoButton>
       {  }
     </div>

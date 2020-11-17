@@ -1,4 +1,5 @@
 import React, { CSSProperties } from 'react';
+import { PoTooltipProps } from './PoTooltipProps';
 
 /**
  * A diretiva po-tooltip deve ser utilizada para oferecer informações adicionais quando os usuários
@@ -10,7 +11,7 @@ import React, { CSSProperties } from 'react';
  * Para textos maiores ou no caso de haver a necessidade de utilizar algum outro elemento como
  * conteúdo deve-se utilizar o [**po-popover**](https://po-ui.io/documentation/po-popover?view=doc).
  */
-export const PoTooltip = ({ children }: React.ComponentProps<'div'>) => {
+export const PoTooltip = ({ children, parentRef, ref }: PoTooltipProps) => {
 
     // po-invisible
 
@@ -18,8 +19,11 @@ export const PoTooltip = ({ children }: React.ComponentProps<'div'>) => {
         top: '42px',
         left: '32.25px'
     }
+
+    console.log('PoTooltip', parentRef())
+    // console.log('PoTooltip', parentRef())
     return (
-        <div className="po-tooltip" style={style}>
+        <div className="po-tooltip po-invisible" style={style}>
             <div className="po-tooltip-arrow po-arrow-top"></div>
             <div className="po-tooltip-content">
                 { children }
