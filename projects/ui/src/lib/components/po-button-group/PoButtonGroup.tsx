@@ -1,5 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import PoButton from '../po-button';
+import { PoTooltip } from '../po-tooltip/PoTooltip';
 import { PoButtonGroupItem as PoButtonGroupItemInterface } from './PoButtonGroupItem';
 import { PoButtonGroupProps } from './PoButtonGroupProps';
 import { PoButtonGroupToggle } from './PoButtonGroupToggle';
@@ -55,7 +56,8 @@ const PoButtonGroupItem = forwardRef(({
   childKey,
   pToggle,
   action,
-  handleExclusive
+  handleExclusive,
+  tooltip
  }: PoButtonGroupItemInterface, ref) => {
 
    const [isSelected, setisSelected] = useState(Boolean(selected))
@@ -88,7 +90,9 @@ const PoButtonGroupItem = forwardRef(({
       pIcon={icon}
       pSmall={pSmall}
       pClick={toggleSelect}
-      ></PoButton>
+      >
+        { tooltip && <PoTooltip>{tooltip}</PoTooltip> }
+      </PoButton>
       {  }
     </div>
   );
