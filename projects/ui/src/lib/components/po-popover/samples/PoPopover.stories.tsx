@@ -8,15 +8,16 @@ export default {
     component: PoPopover,
   } as Meta;
 
-const POPopoverBasicTemplate: Story<PoPopoverProps> = (args) => {
+const POPopoverLabsTemplate: Story<PoPopoverProps> = (args) => {
 
     return (
         <>
-            <PoPopover><button>Open Popover</button></PoPopover>
-            <PoPopover><button>Open Popover2</button></PoPopover>
+            <PoPopover title="PoPopover" {...args}><button>PoPopover Custom</button></PoPopover>
+            <PoPopover title="PoPopover Click" {...args} trigger="click"><button>PoPopover Click</button></PoPopover>
+            <PoPopover title="PoPopover Hover" {...args} trigger="hover"><button>PoPopover Hover</button></PoPopover>
         </>
     )
 };
 
-export const POPopoverBasic = POPopoverBasicTemplate.bind({});
+export const POPopoverLabs = POPopoverLabsTemplate.bind({});
 

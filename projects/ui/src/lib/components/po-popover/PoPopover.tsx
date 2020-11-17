@@ -18,18 +18,30 @@ import { defaultProps, PoPopoverProps } from './PoPopoverProps';
  * Os eventos permitidos são: `click` e `hover`.
  *
  */
-export const PoPopover: React.FC<PoPopoverProps> = ({title, arrowDirection, isHidden, children}: PoPopoverProps) => {
+export const PoPopover: React.FC<PoPopoverProps> = (props: PoPopoverProps) => {
+
+    const { children, trigger } = props;
 
     const contentRef: any = { ref: null }
-    // const [contentRef, setContentRef] = useState(null);
-    const [refReady, setRefReady] = useState(true);
 
-    const handleMouseOver = () => contentRef.ref?.setIsHidden(false);
-    const handleMouseLeave = () => contentRef.ref?.setIsHidden(true);
+    const handleMouseOver = trigger === 'hover' ? ( () => contentRef.ref?.showPopover(true) ) : undefined;
+    const handleMouseLeave = trigger === 'hover' ? ( () => contentRef.ref?.showPopover(false) ) : undefined;
+    const handleClick = trigger === 'click' ? ( () => contentRef.ref?.togglePopover() ) : undefined;
+
+    const events: any = {}
+
+    if (trigger === 'click'){
+        events.onClick = handleClick;
+    }
+
+    if (trigger === 'hover') {
+        events.onMouseOver = handleMouseOver;
+        events.onMouseLeave = handleMouseLeave;
+    }
 
     return (
-        <div onMouseOver={handleMouseOver} onMouseLeave={handleMouseLeave}>
-            <PoPopoverContent ref={(ref:any) => contentRef.ref = ref}/>
+        <div {...events} >
+            <PoPopoverContent {...props} ref={(ref:any) => contentRef.ref = ref}/>
             {children}
         </div>
     )
@@ -37,25 +49,30 @@ export const PoPopover: React.FC<PoPopoverProps> = ({title, arrowDirection, isHi
 
 PoPopover.defaultProps = defaultProps;
 
-const PoPopoverContent = forwardRef((props, ref) => {
+const PoPopoverContent = forwardRef(({
+    title,
+    content,
+    arrowDirection,
+    isHidden,
+    hideArrow
+}: PoPopoverProps, ref) => {
 
-    const [isHidden, setIsHidden] = useState(true)
-    const hideArrow = false;
-    const arrowDirection= 'left-top'
-    const title = 'popover title'
-    const content = 'content'
+    const [show, showPopover] = useState(!Boolean(isHidden))
+    const togglePopover = () => showPopover(!show);
+
+    //TODO: buscar informação do componente pai
     const style:CSSProperties = {
         left: '115px'
     }
 
-    useImperativeHandle(ref, () => ({ setIsHidden }));
+    useImperativeHandle(ref, () => ({ showPopover, togglePopover }));
 
     return (
-        <div hidden={isHidden} className="po-popover" style={style}>
+        <div hidden={!show} className="po-popover" style={style}>
             {!hideArrow && <div className={`po-popover-arrow po-arrow-${ arrowDirection }`}></div> }
             <div className="po-popover-content">
                 { title && <span className="po-popover-title">{ title }</span> }
-                { content }
+                { content && content }
             </div>
         </div>
     )
