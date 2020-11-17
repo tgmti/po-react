@@ -27,9 +27,6 @@ export const PoButtonGroup = ({ pButtons, pSmall, pToggle } : PoButtonGroupProps
   const buttonsRef: any = {}
 
   const handleExclusive = (selectedKey: string) => {
-    console.log('selectOne', selectedKey);
-    console.log('buttonsRef', buttonsRef);
-    console.log('buttonsRefKey', buttonsRef[selectedKey]);
     Object.keys(buttonsRef).forEach(key => buttonsRef[key].setisSelected(key === selectedKey) );
   }
 
@@ -37,8 +34,7 @@ export const PoButtonGroup = ({ pButtons, pSmall, pToggle } : PoButtonGroupProps
     <div className="po-button-group-container">
       { pButtons && pButtons.map( (buttonArgs, key) => {
         const childKey = key.toString();
-        const exclusive = pToggle !== PoButtonGroupToggle.Multiple;
-        const buttonProps = { ...buttonArgs, pSmall, childKey, exclusive, handleExclusive };
+        const buttonProps = { ...buttonArgs, pSmall, childKey, pToggle, handleExclusive };
         return (
           <PoButtonGroupItem {...buttonProps} key={key}
           ref={ (ref:any) => buttonsRef[`${key}`] = ref } >
@@ -57,7 +53,8 @@ const PoButtonGroupItem = forwardRef(({
   pSmall,
   className,
   childKey,
-  exclusive,
+  pToggle,
+  action,
   handleExclusive
  }: PoButtonGroupItemInterface, ref) => {
 
@@ -67,10 +64,15 @@ const PoButtonGroupItem = forwardRef(({
   useImperativeHandle(ref, () => ({ setisSelected }));
 
   const toggleSelect = () => {
-    if (exclusive) {
+
+    action && action();
+
+    if (pToggle === PoButtonGroupToggle.Single) {
       return handleExclusive(childKey);
     }
-    setisSelected(!isSelected);
+    if (pToggle === PoButtonGroupToggle.Multiple) {
+      return setisSelected(!isSelected);
+    }
   }
 
   //TODO: Implementar no Button o Tooltip
