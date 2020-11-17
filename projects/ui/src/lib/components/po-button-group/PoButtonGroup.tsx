@@ -1,6 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import PoButton from '../po-button';
-import { WithTooltip } from '../po-tooltip';
+import { PoWithTooltip } from '../po-tooltip';
 import { PoButtonGroupItem as PoButtonGroupItemInterface } from './PoButtonGroupItem';
 import { PoButtonGroupProps } from './PoButtonGroupProps';
 import { PoButtonGroupToggle } from './PoButtonGroupToggle';
@@ -76,7 +76,7 @@ const PoButtonGroupItem = forwardRef((props: PoButtonGroupItemInterface, ref) =>
     }
   }
 
-  const ButtonComponent = tooltip ? WithTooltip(PoButton) : PoButton;
+  const ButtonComponent = tooltip ? PoWithTooltip(PoButton) : PoButton;
 
   buttonProps.pClick = toggleSelect;
 

@@ -2,7 +2,7 @@ import React from "react";
 
 import PoTooltip from ".";
 
-export const WithTooltip = (BaseComponent: any) => (props: any) => {
+export const PoWithTooltip = (BaseComponent: any) => (props: any) => {
     const { tooltip, ...newProps } = props;
 
     return (
