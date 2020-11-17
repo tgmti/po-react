@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, forwardRef, useEffect } from 'react';
 import { PoTooltipProps } from './PoTooltipProps';
 
 /**
@@ -11,7 +11,7 @@ import { PoTooltipProps } from './PoTooltipProps';
  * Para textos maiores ou no caso de haver a necessidade de utilizar algum outro elemento como
  * conteúdo deve-se utilizar o [**po-popover**](https://po-ui.io/documentation/po-popover?view=doc).
  */
-export const PoTooltip = ({ children, parentRef, ref }: PoTooltipProps) => {
+export const PoTooltip = forwardRef(({ children }: PoTooltipProps, ref) => {
 
     // po-invisible
 
@@ -20,8 +20,13 @@ export const PoTooltip = ({ children, parentRef, ref }: PoTooltipProps) => {
         left: '32.25px'
     }
 
-    console.log('PoTooltip', parentRef())
-    // console.log('PoTooltip', parentRef())
+
+    useEffect(() => {
+        console.log(ref);
+      });
+
+    console.log('PoTooltip', ref )
+
     return (
         <div className="po-tooltip po-invisible" style={style}>
             <div className="po-tooltip-arrow po-arrow-top"></div>
@@ -30,4 +35,4 @@ export const PoTooltip = ({ children, parentRef, ref }: PoTooltipProps) => {
             </div>
         </div>
     );
-}
+});
